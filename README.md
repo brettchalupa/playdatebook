@@ -1,6 +1,8 @@
 # _Make Games for Playdate with Lua_ Chapter Source Code
 
-You'll find the source code for each section of each chapter from _Make Games for Playdate with Lua_.
+The source code for each section of each chapter from [_Make Games for Playdate with Lua_](https://leanpub.com/playdatebook).
+
+[Get the book!](https://leanpub.com/playdatebook)
 
 ## License
 
