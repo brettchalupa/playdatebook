@@ -1,3 +1,7 @@
-# Playdate Book Chapter Source Code
+# _Make Games for Playdate with Lua_ Chapter Source Code
 
-Separate Playdate projects for each significant chapter of the Playdate Book.
+You'll find the source code for each section of each chapter from _Make Games for Playdate with Lua_.
+
+## License
+
+All code in this repository is released into the Public Domain.
