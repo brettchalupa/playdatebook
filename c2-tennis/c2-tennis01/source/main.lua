@@ -1,3 +1,3 @@
 function playdate.update()
-	playdate.graphics.drawRect(20, 20, 12, 48)
+	playdate.graphics.fillRect(36, 80, 12, 48)
 end

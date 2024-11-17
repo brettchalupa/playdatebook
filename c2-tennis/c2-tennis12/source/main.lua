@@ -15,6 +15,7 @@ local ball = {
 	y = 80,
 	r = 10,
 	s = 6,
+	a = 195, -- degrees
 }
 
 function playdate.update()
@@ -40,20 +41,32 @@ function playdate.update()
 		paddle.y = displayHeight - paddle.h
 	end
 
-	ball.x += ball.s
+	local radians = math.rad(ball.a)
+	ball.x += math.cos(radians) * ball.s
+	ball.y += math.sin(radians) * ball.s
 
 	if ball.x + ball.r >= displayWidth then
 		ball.x = displayWidth - ball.r
-		ball.s *= -1
+		ball.a = 180 - ball.a
 	end
 
 	if ball.x <= ball.r then
 		ball.x = ball.r
-		ball.s *= -1
+		ball.a = 180 - ball.a
+	end
+
+	if ball.y + ball.r >= displayHeight then
+		ball.y = displayHeight - ball.r
+		ball.a *= -1
+	end
+
+	if ball.y <= ball.r then
+		ball.y = ball.r
+		ball.a *= -1
 	end
 
 	if circleOverlapsRect(ball, paddle) then
-		ball.s *= -1
+		ball.a = math.random(160, 200) - ball.a
 	end
 
 	gfx.clear()

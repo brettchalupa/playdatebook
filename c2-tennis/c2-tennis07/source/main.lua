@@ -1,8 +1,8 @@
 import "CoreLibs/graphics"
 
 local paddle = {
-	x = 20,
-	y = 20,
+	x = 36,
+	y = 80,
 	s = 10,
 	w = 12,
 	h = 48,
@@ -37,6 +37,6 @@ function playdate.update()
 	end
 
 	playdate.graphics.clear()
-	playdate.graphics.drawRect(paddle.x, paddle.y, paddle.w, paddle.h)
-	playdate.graphics.drawCircleAtPoint(ball.x, ball.y, ball.r)
+	playdate.graphics.fillRect(paddle.x, paddle.y, paddle.w, paddle.h)
+	playdate.graphics.fillCircleAtPoint(ball.x, ball.y, ball.r)
 end

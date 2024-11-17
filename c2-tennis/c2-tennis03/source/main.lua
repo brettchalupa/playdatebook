@@ -1,6 +1,6 @@
 local paddle = {
-	x = 20,
-	y = 20,
+	x = 36,
+	y = 80,
 	s = 10
 }
 
@@ -14,5 +14,5 @@ function playdate.update()
 	end
 
 	playdate.graphics.clear()
-	playdate.graphics.drawRect(paddle.x, paddle.y, 12, 48)
+	playdate.graphics.fillRect(paddle.x, paddle.y, 12, 48)
 end

@@ -3,8 +3,8 @@ import "CoreLibs/graphics"
 local gfx <const> = playdate.graphics
 
 local paddle = {
-	x = 20,
-	y = 20,
+	x = 36,
+	y = 80,
 	s = 10,
 	w = 12,
 	h = 48,
@@ -14,7 +14,7 @@ local ball = {
 	x = 60,
 	y = 80,
 	r = 10,
-	s = 4,
+	s = 6,
 }
 
 function playdate.update()
@@ -53,6 +53,6 @@ function playdate.update()
 	end
 
 	gfx.clear()
-	gfx.drawRect(paddle.x, paddle.y, paddle.w, paddle.h)
-	gfx.drawCircleAtPoint(ball.x, ball.y, ball.r)
+	gfx.fillRect(paddle.x, paddle.y, paddle.w, paddle.h)
+	gfx.fillCircleAtPoint(ball.x, ball.y, ball.r)
 end
