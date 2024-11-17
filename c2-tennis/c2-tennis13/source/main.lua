@@ -15,12 +15,30 @@ local ball = {
 	y = 80,
 	r = 10,
 	s = 6,
+	a = 195, -- degrees
 }
 
 local displayHeight = playdate.display.getHeight()
 local displayWidth = playdate.display.getWidth()
 
 function playdate.update()
+	movePaddle()
+	moveBall()
+
+	if circleOverlapsRect(ball, paddle) then
+		ball.a = math.random(160, 200) - ball.a
+	end
+
+	draw()
+end
+
+function draw()
+	gfx.clear()
+	gfx.fillRect(paddle.x, paddle.y, paddle.w, paddle.h)
+	gfx.fillCircleAtPoint(ball.x, ball.y, ball.r)
+end
+
+function movePaddle()
 	if playdate.buttonIsPressed(playdate.kButtonUp) then
 		paddle.y -= paddle.s
 	end
@@ -39,26 +57,32 @@ function playdate.update()
 	if paddle.y + paddle.h >= displayHeight then
 		paddle.y = displayHeight - paddle.h
 	end
+end
 
-	ball.x += ball.s
+function moveBall()
+	local radians = math.rad(ball.a)
+	ball.x += math.cos(radians) * ball.s
+	ball.y += math.sin(radians) * ball.s
 
 	if ball.x + ball.r >= displayWidth then
 		ball.x = displayWidth - ball.r
-		ball.s *= -1
+		ball.a = 180 - ball.a
 	end
 
 	if ball.x <= ball.r then
 		ball.x = ball.r
-		ball.s *= -1
+		ball.a = 180 - ball.a
 	end
 
-	if circleOverlapsRect(ball, paddle) then
-		ball.s *= -1
+	if ball.y + ball.r >= displayHeight then
+		ball.y = displayHeight - ball.r
+		ball.a *= -1
 	end
 
-	gfx.clear()
-	gfx.fillRect(paddle.x, paddle.y, paddle.w, paddle.h)
-	gfx.fillCircleAtPoint(ball.x, ball.y, ball.r)
+	if ball.y <= ball.r then
+		ball.y = ball.r
+		ball.a *= -1
+	end
 end
 
 function circleOverlapsRect(circle, rect)

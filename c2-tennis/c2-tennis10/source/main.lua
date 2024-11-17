@@ -17,10 +17,10 @@ local ball = {
 	s = 6,
 }
 
-function playdate.update()
-	local displayHeight = playdate.display.getHeight()
-	local displayWidth = playdate.display.getWidth()
+local displayHeight = playdate.display.getHeight()
+local displayWidth = playdate.display.getWidth()
 
+function playdate.update()
 	if playdate.buttonIsPressed(playdate.kButtonUp) then
 		paddle.y -= paddle.s
 	end

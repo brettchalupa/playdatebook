@@ -15,12 +15,47 @@ local ball = {
 	y = 80,
 	r = 10,
 	s = 6,
+	max_s = 12,
+	a = 195, -- degrees
 }
+
+ball.initX = ball.x
+ball.initY = ball.y
+ball.initS = ball.s
+ball.initA = ball.a
+
+local score = 0
 
 local displayHeight = playdate.display.getHeight()
 local displayWidth = playdate.display.getWidth()
+local synth = playdate.sound.synth.new(playdate.sound.kWaveSine)
 
 function playdate.update()
+	movePaddle()
+	moveBall()
+
+	if circleOverlapsRect(ball, paddle) then
+		ball.a = math.random(160, 200) - ball.a
+		playSFX("C4")
+
+		score += 1
+
+		if ball.s < ball.max_s then
+			ball.s += 1
+		end
+	end
+
+	draw()
+end
+
+function draw()
+	gfx.clear()
+	gfx.fillRect(paddle.x, paddle.y, paddle.w, paddle.h)
+	gfx.fillCircleAtPoint(ball.x, ball.y, ball.r)
+	gfx.drawText("Score: " .. score, displayWidth - 100, 20)
+end
+
+function movePaddle()
 	if playdate.buttonIsPressed(playdate.kButtonUp) then
 		paddle.y -= paddle.s
 	end
@@ -39,26 +74,47 @@ function playdate.update()
 	if paddle.y + paddle.h >= displayHeight then
 		paddle.y = displayHeight - paddle.h
 	end
+end
 
-	ball.x += ball.s
+function moveBall()
+	local radians = math.rad(ball.a)
+	ball.x += math.cos(radians) * ball.s
+	ball.y += math.sin(radians) * ball.s
 
 	if ball.x + ball.r >= displayWidth then
+		playSFX("E4")
 		ball.x = displayWidth - ball.r
-		ball.s *= -1
+		ball.a = 180 - ball.a
 	end
 
 	if ball.x <= ball.r then
-		ball.x = ball.r
-		ball.s *= -1
+		playSFX("F3")
+		resetGame()
 	end
 
-	if circleOverlapsRect(ball, paddle) then
-		ball.s *= -1
+	if ball.y + ball.r >= displayHeight then
+		playSFX("D4")
+		ball.y = displayHeight - ball.r
+		ball.a *= -1
 	end
 
-	gfx.clear()
-	gfx.fillRect(paddle.x, paddle.y, paddle.w, paddle.h)
-	gfx.fillCircleAtPoint(ball.x, ball.y, ball.r)
+	if ball.y <= ball.r then
+		playSFX("A4")
+		ball.y = ball.r
+		ball.a *= -1
+	end
+end
+
+function resetGame()
+	score = 0
+	ball.x = ball.initX
+	ball.y = ball.initY
+	ball.s = ball.initS
+	ball.a = ball.initA
+end
+
+function playSFX(note)
+	synth:playMIDINote(note, 1, 0.25)
 end
 
 function circleOverlapsRect(circle, rect)
