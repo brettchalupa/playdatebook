@@ -1,7 +1,7 @@
 local gfx <const> = playdate.graphics
 local gridSize <const> = 20
 local screenWidth <const> = playdate.display.getWidth()
-local gridWidth <const> = screenWidth / gridSize
+local gridWidth <const> = screenWidth / gridSize - 1
 
 local snake = {
 	gridX = 2,

@@ -4,8 +4,8 @@ local gfx <const> = playdate.graphics
 local gridSize <const> = 20
 local screenWidth <const> = playdate.display.getWidth()
 local screenHeight <const> = playdate.display.getHeight()
-local gridWidth <const> = screenWidth / gridSize
-local gridHeight <const> = screenHeight / gridSize
+local gridWidth <const> = screenWidth / gridSize - 1
+local gridHeight <const> = screenHeight / gridSize - 1
 
 local snake = {
 	gridX = 2,
@@ -47,8 +47,8 @@ end
 function spawnApple()
 	local appleOverlapsSnake = true
 	while appleOverlapsSnake do
-		apple.gridX = math.random(0, gridWidth)
-		apple.gridY = math.random(0, gridHeight)
+		apple.gridX = math.random(1, gridWidth - 1)
+		apple.gridY = math.random(1, gridHeight - 1)
 
 		local anyOverlaps = false
 
@@ -57,7 +57,7 @@ function spawnApple()
 		end
 
 		for _, part in pairs(snake.parts) do
-			if apple.gridX == part.gridX and part.gridY == snake.gridY then
+			if apple.gridX == part.gridX and apple.gridY == snake.gridY then
 				anyOverlaps = true
 			end
 		end
