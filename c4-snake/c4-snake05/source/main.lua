@@ -57,7 +57,7 @@ function spawnApple()
 		end
 
 		for _, part in pairs(snake.parts) do
-			if apple.gridX == part.gridX and apple.gridY == snake.gridY then
+			if apple.gridX == part.gridX and apple.gridY == part.gridY then
 				anyOverlaps = true
 			end
 		end

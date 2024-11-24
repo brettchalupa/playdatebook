@@ -47,7 +47,7 @@ function playdate.update()
 	)
 
 	if isGameOver then
-		gfx.drawText("Game Over", 40, 40);
+		gfx.drawText("*Game Over*", 40, 40);
 	end
 end
 
