@@ -69,13 +69,13 @@ function updateSnake()
 end
 
 function moveSnake()
-	prevLoc = { gridX = snake.gridX, gridY = snake.gridY }
+	local prevPos = { gridX = snake.gridX, gridY = snake.gridY }
 
-	for _,part in pairs(snake.parts) do
-		tmpPrevLoc = { gridX = part.gridX, gridY = part.gridY }
-		part.gridX = prevLoc.gridX
-		part.gridY = prevLoc.gridY
-		prevLoc = tmpPrevLoc
+	for _, part in pairs(snake.parts) do
+		local segmentPos = { gridX = part.gridX, gridY = part.gridY }
+		part.gridX = prevPos.gridX
+		part.gridY = prevPos.gridY
+		prevPos = segmentPos
 	end
 
 	if snake.direction == "right" then
