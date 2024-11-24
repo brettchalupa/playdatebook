@@ -46,7 +46,7 @@ end
 
 function spawnApple()
 	apple.gridX = math.random(0, gridWidth)
-	apple.gridX = math.random(0, gridHeight)
+	apple.gridY = math.random(0, gridHeight)
 end
 
 function updateSnake()
