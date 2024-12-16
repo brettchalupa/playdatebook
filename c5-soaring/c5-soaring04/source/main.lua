@@ -13,6 +13,8 @@ local bird = {
 	yVel = 0,
 	r = 12,
 }
+bird.initX = bird.x
+bird.initY = bird.y
 
 local tree = {
 	x = screenWidth + 40,
@@ -21,6 +23,9 @@ local tree = {
 	h = 80,
 	s = 4,
 }
+tree.initX = tree.x
+tree.initY = tree.y
+tree.initS = tree.s
 
 local activeScene = "mainMenu"
 
@@ -37,6 +42,7 @@ end
 function updateMainMenu()
 	if playdate.buttonJustPressed(playdate.kButtonA) then
 		activeScene = "gameplay"
+		resetGameplay()
 	end
 
 	gfx.clear()
@@ -65,11 +71,22 @@ end
 function updateGameOver()
 	if playdate.buttonJustPressed(playdate.kButtonA) then
 		activeScene = "gameplay"
+		resetGameplay()
 	end
 
 	gfx.clear()
 	gfx.drawText("*Game Over*", 40, 40);
 	gfx.drawText("Press A to try again", 40, screenHeight - 80);
+end
+
+function resetGameplay()
+	bird.x = bird.initX
+	bird.y = bird.initY
+	bird.yVel = 0
+
+	tree.x = tree.initX
+	tree.y = tree.initY
+	tree.s = tree.initS
 end
 
 function updateBird()
