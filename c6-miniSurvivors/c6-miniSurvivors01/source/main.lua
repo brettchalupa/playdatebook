@@ -1,4 +1,8 @@
 import "CoreLibs/graphics"
+import "util"
+
+screenWidth = playdate.display.getWidth()
+screenHeight = playdate.display.getHeight()
 
 local gfx <const> = playdate.graphics
 
@@ -35,6 +39,9 @@ function updatePlayer(player)
 	if playdate.buttonIsPressed(playdate.kButtonRight) then
 			player.x += player.s
 	end
+
+	player.x = clamp(player.x, 0, screenWidth - player.w)
+	player.y = clamp(player.y, 0, screenHeight - player.h)
 end
 
 function drawPlayer(player)
