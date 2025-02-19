@@ -45,7 +45,7 @@ function playdate.update()
 		table.insert(snake.parts, { gridX = snake.gridX, gridY = snake.gridY })
 		spawnApple()
 	end
-	
+
 	gfx.clear()
 	gfx.fillRect(snake.gridX * gridSize, snake.gridY * gridSize, gridSize, gridSize)
 	for _, part in pairs(snake.parts) do
@@ -179,8 +179,7 @@ function endGame()
 end
 
 function numParts()
-	local partsCount, _ = table.getsize(snake.parts)
-	return partsCount
+	return #snake.parts
 end
 
 function saveNewHighScore(score)
