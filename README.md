@@ -10,7 +10,7 @@ The source code for each chapter is broken down into a different folder for each
 
 Here's how to build an example game from chapter 2:
 
-``` console
+```console
 pdc c2-tennis/c2-tennis17/source tennis.pdx
 ```
 

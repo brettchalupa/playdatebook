@@ -1,0 +1,92 @@
+import "CoreLibs/graphics"
+
+local gfx <const> = playdate.graphics
+local tileSize <const> = 40
+local displayW <const>, displayH <const> = playdate.display.getSize()
+gfx.setLineWidth(3)
+
+local maxTileX <const> = displayW / tileSize - 1
+local maxTileY <const> = displayH / tileSize - 1
+
+local player = {
+    x = 4,
+    y = 3,
+}
+
+local box = {
+    x = 5,
+    y = 3,
+}
+
+function playdate.update()
+    local dx, dy = 0, 0
+
+    if playdate.buttonJustPressed(playdate.kButtonUp) then
+        dy = -1
+    elseif playdate.buttonJustPressed(playdate.kButtonDown) then
+        dy = 1
+    elseif playdate.buttonJustPressed(playdate.kButtonLeft) then
+        dx = -1
+    elseif playdate.buttonJustPressed(playdate.kButtonRight) then
+        dx = 1
+    end
+
+    if dx ~= 0 or dy ~= 0 then
+        if tryMove(dx, dy) then
+            player.x = player.x + dx
+            player.y = player.y + dy
+        end
+    end
+
+    -- Reset game on A button press
+    if playdate.buttonJustPressed(playdate.kButtonA) then
+        player.x = 4
+        player.y = 3
+        box.x = 5
+        box.y = 3
+    end
+
+    gfx.clear()
+    drawPlayer(player)
+    drawBox(box)
+end
+
+function tryMove(dx, dy)
+    local newX = player.x + dx
+    local newY = player.y + dy
+
+    -- Check display boundaries
+    if newX < 0 or newX > maxTileX or newY < 0 or newY > maxTileY then
+        return false -- Cannot move, out of bounds
+    end
+
+    -- Check for box collision
+    if newX == box.x and newY == box.y then
+        -- Player is trying to move into the box.
+        -- Check if the box can be pushed
+        local boxNewX = box.x + dx
+        local boxNewY = box.y + dy
+
+        -- Check if box would be out of bounds
+        if boxNewX < 0 or boxNewX > maxTileX or boxNewY < 0 or boxNewY > maxTileY then
+            return false -- Box is blocked by boundary
+        else
+            -- Box can be pushed, so move the box and allow player to move
+            box.x = boxNewX
+            box.y = boxNewY
+            -- Player moves are handled outside this function after a successful tryMove
+            return true
+        end
+    end
+
+    return true
+end
+
+function drawPlayer(p)
+    gfx.drawCircleInRect(p.x * tileSize, p.y * tileSize, tileSize, tileSize)
+end
+
+function drawBox(b)
+    gfx.drawRoundRect(b.x * tileSize, b.y * tileSize, tileSize, tileSize, 4)
+end
+
