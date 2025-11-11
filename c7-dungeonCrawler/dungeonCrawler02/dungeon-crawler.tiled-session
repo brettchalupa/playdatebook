@@ -1,0 +1,43 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "level1.tmx",
+    "expandedProjectPaths": [
+    ],
+    "fileStates": {
+        "level1.tmx": {
+            "scale": 2.7154166666666666,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 120.05524014116926,
+                "y": 79.91407089151451
+            }
+        },
+        "tiles.tsx": {
+            "scaleInDock": 3,
+            "scaleInEditor": 1
+        }
+    },
+    "last.exportedFilePath": "/home/brett/Code/playdatebook_manuscript/code/dungeonCrawler/dungeonCrawler02/source",
+    "last.imagePath": "/home/brett/Code/playdatebook_manuscript/code/dungeonCrawler/dungeonCrawler02/source",
+    "map.lastUsedExportFilter": "All Files (*)",
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 8,
+    "map.tileWidth": 8,
+    "openFiles": [
+        "tiles.tsx",
+        "level1.tmx"
+    ],
+    "project": "dungeon-crawler.tiled-project",
+    "recentFiles": [
+        "tiles.tsx",
+        "level1.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 8,
+        "width": 8
+    }
+}
