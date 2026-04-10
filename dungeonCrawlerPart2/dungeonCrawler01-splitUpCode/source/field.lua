@@ -1,0 +1,137 @@
+import("sound")
+import("input")
+import("CoreLibs/graphics")
+local gfx <const> = playdate.graphics
+
+local SCALE <const> = 4
+local DISPLAY_HEIGHT = nil -- gets set in initField
+local DISPLAY_WIDTH = nil -- gets set in initField
+local TILE_SIZE <const> = 8
+
+local player = { imgtableIndex = 5 }
+local map = nil
+local levels = {
+  level1 = import("level1"),
+}
+local camera = { x = 0, y = 0 }
+local gfx <const> = playdate.graphics
+
+local tileProp <const> = {
+  WALKABLE = "walkable",
+}
+local tileProps <const> = {
+  [18] = tileProp.WALKABLE, -- ground
+}
+local focusedNPC = nil
+local levelName = nil
+local npcs <const> = {
+  level1 = {
+    ["22,10"] = {
+      name = "Dog",
+      text = "Got a treat?",
+    },
+    ["23,4"] = {
+      name = "Snake",
+      text = "Dogs, all they think about is food.",
+    },
+    ["24,7"] = {
+      name = "Column",
+      text = "Sure is windy out here today.",
+    },
+  },
+}
+
+local function loadLevel(name, imgtable)
+  levelName = name
+  local level = levels[levelName]
+  print("Loading level: " .. levelName)
+  local map = gfx.tilemap.new()
+  map:setImageTable(imgtable)
+  local layer = level.layers[1]
+  map:setTiles(layer.data, layer.width)
+  return map
+end
+
+local function drawTile(i, x, y)
+  imgtable:drawImage(i, (x * TILE_SIZE) - camera.x, (y * TILE_SIZE) - camera.y)
+end
+
+local function drawPlayer(p)
+  drawTile(p.imgtableIndex, p.x, p.y)
+end
+
+local function updatePlayer(p, map)
+  local d = getInputDelta()
+
+  if d.x ~= 0 or d.y ~= 0 then
+    local dest = { x = p.x + d.x, y = p.y + d.y }
+
+    local tileAtDest = map:getTileAtPosition(dest.x + 1, dest.y + 1)
+
+    if tileProps[tileAtDest] == tileProp.WALKABLE then
+      p.x += d.x
+      p.y += d.y
+    else
+      focusedNPC = npcs[levelName][dest.x .. "," .. dest.y]
+
+      if focusedNPC then
+        playSFX("B3")
+      end
+    end
+  end
+end
+
+local function updateCamera(c, p)
+  c.x = p.x * TILE_SIZE - (DISPLAY_WIDTH / 2)
+  c.y = p.y * TILE_SIZE - (DISPLAY_HEIGHT / 2)
+end
+
+local function drawTextbox(speak)
+  gfx.setImageDrawMode(playdate.graphics.kDrawModeFillWhite)
+  gfx.drawText(speak.name, 4, 0)
+  gfx.setImageDrawMode(playdate.graphics.kDrawModeCopy)
+
+  playdate.graphics.setColor(gfx.kColorWhite)
+  gfx.fillRoundRect(0, DISPLAY_HEIGHT - 46, DISPLAY_WIDTH, 46, 4)
+  playdate.graphics.setColor(gfx.kColorBlack)
+  gfx.drawTextInRect(speak.text, 4, DISPLAY_HEIGHT - 42, DISPLAY_WIDTH - 8, 40)
+end
+
+function initField()
+  playdate.display.setScale(SCALE)
+  DISPLAY_HEIGHT = playdate.display.getHeight()
+  DISPLAY_WIDTH = playdate.display.getWidth()
+
+  gfx.setBackgroundColor(gfx.kColorBlack)
+
+  imgtable, err = gfx.imagetable.new("tilemap")
+  if err then
+    print(err)
+  end
+
+  player.x = 5
+  player.y = 6
+
+  map = loadLevel("level1", imgtable)
+end
+
+function updateField()
+  if focusedNPC then
+    if playdate.buttonJustPressed(playdate.kButtonA) then
+      playSFX("C5")
+      focusedNPC = nil
+    end
+  else
+    updatePlayer(player, map)
+    updateCamera(camera, player)
+  end
+
+  gfx.clear()
+
+  if focusedNPC then
+    drawTextbox(focusedNPC)
+  else
+    map:draw(-camera.x, -camera.y)
+    drawPlayer(player)
+  end
+end

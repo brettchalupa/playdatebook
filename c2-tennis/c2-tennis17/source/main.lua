@@ -3,20 +3,20 @@ import "CoreLibs/graphics"
 local gfx <const> = playdate.graphics
 
 local paddle = {
-	x = 36,
-	y = 80,
-	s = 10,
-	w = 12,
-	h = 48,
+  x = 36,
+  y = 80,
+  s = 10,
+  w = 12,
+  h = 48,
 }
 
 local ball = {
-	x = 220,
-	y = 80,
-	r = 10,
-	s = 6,
-	max_s = 12,
-	a = 195, -- degrees
+  x = 220,
+  y = 80,
+  r = 10,
+  s = 6,
+  max_s = 12,
+  a = 195, -- degrees
 }
 
 ball.initX = ball.x
@@ -31,100 +31,100 @@ local displayWidth = playdate.display.getWidth()
 local synth = playdate.sound.synth.new(playdate.sound.kWaveSine)
 
 function playdate.update()
-	movePaddle()
-	moveBall()
+  movePaddle()
+  moveBall()
 
-	if circleOverlapsRect(ball, paddle) then
-		ball.a = math.random(160, 200) - ball.a
-		playSFX("C4")
+  if circleOverlapsRect(ball, paddle) then
+    ball.a = math.random(160, 200) - ball.a
+    playSFX("C4")
 
-		score += 1
+    score += 1
 
-		if ball.s < ball.max_s then
-			ball.s += 1
-		end
-	end
+    if ball.s < ball.max_s then
+      ball.s += 1
+    end
+  end
 
-	draw()
+  draw()
 end
 
 function draw()
-	gfx.clear()
-	gfx.fillRect(paddle.x, paddle.y, paddle.w, paddle.h)
-	gfx.fillCircleAtPoint(ball.x, ball.y, ball.r)
-	gfx.drawText("Score: " .. score, displayWidth - 100, 20)
+  gfx.clear()
+  gfx.fillRect(paddle.x, paddle.y, paddle.w, paddle.h)
+  gfx.fillCircleAtPoint(ball.x, ball.y, ball.r)
+  gfx.drawText("Score: " .. score, displayWidth - 100, 20)
 end
 
 function movePaddle()
-	if playdate.buttonIsPressed(playdate.kButtonUp) then
-		paddle.y -= paddle.s
-	end
+  if playdate.buttonIsPressed(playdate.kButtonUp) then
+    paddle.y -= paddle.s
+  end
 
-	if playdate.buttonIsPressed(playdate.kButtonDown) then
-		paddle.y += paddle.s
-	end
+  if playdate.buttonIsPressed(playdate.kButtonDown) then
+    paddle.y += paddle.s
+  end
 
-	local _crankChange, acceleratedCrankChange = playdate.getCrankChange()
-	paddle.y += acceleratedCrankChange
+  local _crankChange, acceleratedCrankChange = playdate.getCrankChange()
+  paddle.y += acceleratedCrankChange
 
-	if paddle.y <= 0 then
-		paddle.y = 0
-	end
+  if paddle.y <= 0 then
+    paddle.y = 0
+  end
 
-	if paddle.y + paddle.h >= displayHeight then
-		paddle.y = displayHeight - paddle.h
-	end
+  if paddle.y + paddle.h >= displayHeight then
+    paddle.y = displayHeight - paddle.h
+  end
 end
 
 function moveBall()
-	local radians = math.rad(ball.a)
-	ball.x += math.cos(radians) * ball.s
-	ball.y += math.sin(radians) * ball.s
+  local radians = math.rad(ball.a)
+  ball.x += math.cos(radians) * ball.s
+  ball.y += math.sin(radians) * ball.s
 
-	if ball.x + ball.r >= displayWidth then
-		playSFX("E4")
-		ball.x = displayWidth - ball.r
-		ball.a = 180 - ball.a
-	end
+  if ball.x + ball.r >= displayWidth then
+    playSFX("E4")
+    ball.x = displayWidth - ball.r
+    ball.a = 180 - ball.a
+  end
 
-	if ball.x <= ball.r then
-		playSFX("F3")
-		resetGame()
-	end
+  if ball.x <= ball.r then
+    playSFX("F3")
+    resetGame()
+  end
 
-	if ball.y + ball.r >= displayHeight then
-		playSFX("D4")
-		ball.y = displayHeight - ball.r
-		ball.a *= -1
-	end
+  if ball.y + ball.r >= displayHeight then
+    playSFX("D4")
+    ball.y = displayHeight - ball.r
+    ball.a *= -1
+  end
 
-	if ball.y <= ball.r then
-		playSFX("A4")
-		ball.y = ball.r
-		ball.a *= -1
-	end
+  if ball.y <= ball.r then
+    playSFX("A4")
+    ball.y = ball.r
+    ball.a *= -1
+  end
 end
 
 function resetGame()
-	score = 0
-	ball.x = ball.initX
-	ball.y = ball.initY
-	ball.s = ball.initS
-	ball.a = ball.initA
+  score = 0
+  ball.x = ball.initX
+  ball.y = ball.initY
+  ball.s = ball.initS
+  ball.a = ball.initA
 end
 
 function playSFX(note)
-	synth:playMIDINote(note, 1, 0.25)
+  synth:playMIDINote(note, 1, 0.25)
 end
 
 function circleOverlapsRect(circle, rect)
-	-- Find the point to the circle center within the rectangle
-	local closestX = math.max(rect.x, math.min(circle.x, rect.x + rect.w))
-	local closestY = math.max(rect.y, math.min(circle.y, rect.y + rect.h))
+  -- Find the point to the circle center within the rectangle
+  local closestX = math.max(rect.x, math.min(circle.x, rect.x + rect.w))
+  local closestY = math.max(rect.y, math.min(circle.y, rect.y + rect.h))
 
-	-- Distance between the circle center and the closest point
-	local distance = math.sqrt((closestX - circle.x)^2 + (closestY - circle.y)^2)
+  -- Distance between the circle center and the closest point
+  local distance = math.sqrt((closestX - circle.x)^2 + (closestY - circle.y)^2)
 
-	-- If the distance is less than or equal to the radius, there's overlap
-	return distance <= circle.r
+  -- If the distance is less than or equal to the radius, there's overlap
+  return distance <= circle.r
 end
