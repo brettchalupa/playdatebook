@@ -39,20 +39,41 @@ local function drawMenu()
   end
 end
 
+local function simulateCombat()
+  -- player attacks
+  table.insert(messageQueue, "You attacked!")
+  local dmgToEnemy = player.str - enemy.def
+  enemy.hp -= dmgToEnemy
+  table.insert(messageQueue, "Dealt " .. dmgToEnemy .. " damage!")
+
+  if enemy.hp <= 0 then
+    table.insert(messageQueue, "Defeated " .. enemy.name .. "!")
+    table.insert(messageQueue, function()
+      switchToField()
+      return true
+    end)
+    -- enemy shouldn't attack if it's dead, so return early
+    return
+  end
+
+  -- enemy attacks
+  table.insert(messageQueue, enemy.name .. " attacked!")
+  local dmgToPlayer = enemy.str - player.def
+  player.hp -= dmgToPlayer
+  table.insert(messageQueue, "Dealt " .. dmgToPlayer .. " damage!")
+
+  if player.hp <= 0 then
+    table.insert(messageQueue, "Oh no, you died!")
+    table.insert(messageQueue, function()
+      switchToGameOver()
+      return true
+    end)
+  end
+end
+
 local function takeAction(action)
   if action == "Attack" then
-    local dmg = 2
-    table.insert(messageQueue, "You attacked!")
-    enemy.hp -= dmg
-    table.insert(messageQueue, "Dealt " .. dmg .. " damage!")
-
-    if enemy.hp <= 0 then
-      table.insert(messageQueue, "Defeated " .. enemy.name .. "!")
-      table.insert(messageQueue, function()
-        switchToField()
-        return true
-      end)
-    end
+    simulateCombat()
   elseif action == "Defend" then
     table.insert(messageQueue, "You defended!")
   elseif action == "Run" then
@@ -128,6 +149,8 @@ function updateCombat()
       gfx.drawTextInRect(currentMessage, text_r)
       gfx.fillCircleInRect(180, 100, menuDotD, menuDotD)
     end
+  else
+    gfx.drawText("Plyr: " .. player.hp .. "/" .. player.maxHP .. " HP", 110, 98)
   end
   gfx.setImageDrawMode(playdate.graphics.kDrawModeCopy)
 

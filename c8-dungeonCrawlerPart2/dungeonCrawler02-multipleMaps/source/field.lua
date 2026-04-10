@@ -15,7 +15,6 @@ local levels = {
   level2 = import("level2"),
 }
 local camera = { x = 0, y = 0 }
-local gfx <const> = playdate.graphics
 
 local tileProp <const> = {
   WALKABLE = "walkable",
@@ -94,7 +93,7 @@ local function drawPlayer(p)
   drawTile(p.imgtableIndex, p.x, p.y)
 end
 
-local function traverseStairs(stairs, p)
+local function traverseStairs(stairs)
   local x, y = stairs.toPos:match("(%d+),(%d+)")
   player.x = x
   player.y = y
@@ -120,7 +119,7 @@ local function updatePlayer(p, map)
           focusedNPC = focusedObj
           playSFX("B3")
         elseif focusedObj.type == objectType.STAIRS then
-          traverseStairs(focusedObj, p)
+          traverseStairs(focusedObj)
           playSFX("B1")
         end
       end

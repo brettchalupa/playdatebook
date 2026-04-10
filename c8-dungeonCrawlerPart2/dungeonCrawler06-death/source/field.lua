@@ -5,10 +5,9 @@ local gfx <const> = playdate.graphics
 
 local SCALE <const> = 4
 local DISPLAY_HEIGHT = nil -- gets set in initField
-local DISPLAY_WIDTH = nil -- gets set in initField
+local DISPLAY_WIDTH = nil  -- gets set in initField
 local TILE_SIZE <const> = 8
 
-local player = { imgtableIndex = 5 }
 local stepsUntilEncounter = 0
 local map = nil
 local levels = {
@@ -135,8 +134,8 @@ local function updatePlayer(p, map)
 
         if stepsUntilEncounter <= 0 then
           resetEncounterSteps()
+          initCombat(enemies.snake)
           playSFX("C4")
-          switchState("combat")
         end
       end
     else
@@ -171,18 +170,20 @@ local function drawTextbox(speak)
   gfx.drawTextInRect(speak.text, 4, DISPLAY_HEIGHT - 42, DISPLAY_WIDTH - 8, 40)
 end
 
-function initField()
+function switchToField()
+  gfx.clear(gfx.kColorBlack)
+  switchState("field")
   playdate.display.setScale(SCALE)
   DISPLAY_HEIGHT = playdate.display.getHeight()
   DISPLAY_WIDTH = playdate.display.getWidth()
 
   gfx.setBackgroundColor(gfx.kColorBlack)
+end
 
-  imgtable, err = gfx.imagetable.new("tilemap")
-  if err then
-    print(err)
-  end
+function initField()
+  switchToField()
 
+  player.hp = player.maxHP
   player.x = 5
   player.y = 6
 

@@ -14,7 +14,6 @@ local levels = {
   level1 = import("level1"),
 }
 local camera = { x = 0, y = 0 }
-local gfx <const> = playdate.graphics
 
 local tileProp <const> = {
   WALKABLE = "walkable",
