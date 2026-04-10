@@ -19,3 +19,5 @@ You can then run `tennis.pdx` on the Playdate Simulator and on your console.
 ## License
 
 All code in this repository is released into the Public Domain.
+
+The fonts used throughout the games are made by Panic and included in the Playdate SDK, available for use under the Creative Commons Attribution 4.0 International (CC BY 4.0) license.
