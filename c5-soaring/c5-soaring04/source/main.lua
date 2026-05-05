@@ -46,8 +46,8 @@ function updateMainMenu()
   end
 
   gfx.clear()
-  gfx.drawText("*Soaring*", 40, 40);
-  gfx.drawText("Press A to start", 40, screenHeight - 80);
+  gfx.drawText("*Soaring*", 40, 40)
+  gfx.drawText("Press A to start", 40, screenHeight - 80)
 end
 
 function updateGameplay()
@@ -75,8 +75,8 @@ function updateGameOver()
   end
 
   gfx.clear()
-  gfx.drawText("*Game Over*", 40, 40);
-  gfx.drawText("Press A to try again", 40, screenHeight - 80);
+  gfx.drawText("*Game Over*", 40, 40)
+  gfx.drawText("Press A to try again", 40, screenHeight - 80)
 end
 
 function resetGameplay()

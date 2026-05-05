@@ -51,8 +51,8 @@ function playdate.update()
   )
 
   if isGameOver then
-    gfx.drawText("*Game Over*", 40, 40);
-    gfx.drawText("Press the A button to play again", 40, 70);
+    gfx.drawText("*Game Over*", 40, 40)
+    gfx.drawText("Press the A button to play again", 40, 70)
   end
 end
 

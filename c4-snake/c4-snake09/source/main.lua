@@ -58,11 +58,11 @@ function playdate.update()
   )
 
   if isGameOver then
-    gfx.drawText("*Game Over*", 40, 40);
-    gfx.drawText("Press the A button to play again", 40, 70);
-    gfx.drawText("Your Score: " .. numParts() .. " | High-Score: " .. highScore, 40, 100);
+    gfx.drawText("*Game Over*", 40, 40)
+    gfx.drawText("Press the A button to play again", 40, 70)
+    gfx.drawText("Your Score: " .. numParts() .. " | High-Score: " .. highScore, 40, 100)
     if newHighScore then
-      gfx.drawText("New high-score!", 40, 130);
+      gfx.drawText("New high-score!", 40, 130)
     end
   end
 end
@@ -157,7 +157,7 @@ end
 function checkForSnakeBite()
   for _, part in pairs(snake.parts) do
     if part.gridX == snake.gridX and part.gridY == snake.gridY then
-        endGame();
+        endGame()
         return
     end
   end

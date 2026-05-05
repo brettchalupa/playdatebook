@@ -24,12 +24,11 @@ playdate.display.setRefreshRate(50)
 function spawnEnemy()
   if table.getsize(state.enemies) < 20 then
     randomX = math.random(-20, screenWidth + 20)
-    -- TODO: make this better
     randomY = math.random(-20, screenHeight + 20)
 
     table.insert(state.enemies, {
-        x = randomX, y = randomY, size = 12
-      })
+      x = randomX, y = randomY, size = 12
+    })
   end
 
   startSpawnTimer()
@@ -55,16 +54,16 @@ end
 
 function updatePlayer(player)
   if playdate.buttonIsPressed(playdate.kButtonUp) then
-      player.y -= player.s
+    player.y -= player.s
   end
   if playdate.buttonIsPressed(playdate.kButtonDown) then
-      player.y += player.s
+    player.y += player.s
   end
   if playdate.buttonIsPressed(playdate.kButtonLeft) then
-      player.x -= player.s
+    player.x -= player.s
   end
   if playdate.buttonIsPressed(playdate.kButtonRight) then
-      player.x += player.s
+    player.x += player.s
   end
 
   player.x = clamp(player.x, 0, screenWidth - player.w)

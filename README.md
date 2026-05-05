@@ -16,6 +16,10 @@ pdc c2-tennis/c2-tennis17/source tennis.pdx
 
 You can then run `tennis.pdx` on the Playdate Simulator and on your console.
 
+## Beyond
+
+Check out [_1-Bit Fantasy_](https://github.com/brettchalupa/1_bit_fantasy), a free and open source JRPG prototype I made to continue on with the book's final two chapters.
+
 ## License
 
 All code in this repository is released into the Public Domain.
