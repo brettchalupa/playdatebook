@@ -1,5 +1,5 @@
 function getInputDelta()
-  d = { x = 0, y = 0 }
+  local d = { x = 0, y = 0 }
 
   if playdate.buttonJustPressed(playdate.kButtonLeft) then
     d.x -= 1
